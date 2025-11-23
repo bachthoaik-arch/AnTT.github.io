@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kết Nối Zalo Premium</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Cấu hình màu sắc Neon tối */
+        :root {
+            --bg-dark: #090910;      /* Nền đen sâu */
+            --card-bg: rgba(25, 25, 40, 0.6); /* Màu kính tối */
+            --neon-blue: #00f2ff;    /* Xanh diện tử */
+            --neon-purple: #a800ff;  /* Tím Cyber */
+            --text-white: #ffffff;
+            --text-gray: #a0a0b0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: var(--bg-dark);
+            /* Tạo nền không gian có điểm sáng trung tâm */
+            background-image: radial-gradient(circle at center, #1e1e3a 0%, var(--bg-dark) 70%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: var(--text-white);
+        }
+
+        /* KHUNG THẺ BÀI CHÍNH (Hiệu ứng kính mờ phát sáng) */
+        .container {
+            position: relative;
+            width: 100%;
+            max-width: 380px;
+            background: var(--card-bg);
+            /* Hiệu ứng làm mờ nền phía sau */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 35px;
+            padding: 50px 30px;
+            text-align: center;
+            /* Viền phát sáng nhẹ */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            /* Bóng đổ 2 màu xanh tím */
+            box-shadow: 0 0 40px rgba(0, 242, 255, 0.1), 
+                        0 20px 60px rgba(168, 0, 255, 0.15);
+            overflow: hidden;
+        }
+
+        /* --- PHẦN ĐẦU (Header) --- */
+        .avatar-box {
+            position: relative;
+            width: 130px; height: 130px;
+            margin: 0 auto 25px;
+        }
+        /* Vòng hào quang xoay quanh avatar */
+        .avatar-box::before {
+            content: ''; position: absolute; z-index: -1;
+            top: -5px; left: -5px; right: -5px; bottom: -5px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+            filter: blur(20px); opacity: 0.5;
+            animation: spinGlow 6s linear infinite;
+        }
+        @keyframes spinGlow { 100% { transform: rotate(360deg); } }
+
+        .avatar-img {
+            width: 100%; height: 100%;
+            border-radius: 50%; object-fit: cover;
+            border: 4px solid #fff;
+            /* Ảnh mẫu tạm thời (nếu chưa có ảnh thật) */
+            background: linear-gradient(45deg, #333, #555);
+        }
+        
+        /* Chấm xanh Online */
+        .status-dot {
+            position: absolute; bottom: 10px; right: 10px;
+            width: 24px; height: 24px;
+            background-color: #00ff88;
+            border: 4px solid var(--bg-dark); border-radius: 50%;
+            box-shadow: 0 0 15px #00ff88;
+        }
+
+        .shop-name-row {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            margin-bottom: 15px;
+        }
+        .shop-name {
+            font-size: 28px; font-weight: 800; letter-spacing: 0.5px;
+            /* Chữ Gradient đẹp mắt */
+            background: linear-gradient(to right, #fff, var(--neon-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .verified-badge { color: var(--neon-blue); font-size: 24px; filter: drop-shadow(0 0 8px var(--neon-blue)); }
+
+        .bio-text {
+            font-size: 16px; color: var(--text-gray);
+            margin-bottom: 40px; font-weight: 500; line-height: 1.6;
+        }
+
+        /* --- NÚT ZALO CHÍNH (Tâm điểm) --- */
+        .zalo-btn-wrap {
+            position: relative;
+            margin-top: 20px;
+        }
+        
+        .btn-zalo {
+            display: flex; align-items: center; justify-content: center;
+            width: 100%; padding: 22px 30px;
+            /* Gradient màu Zalo nhưng hiện đại hơn */
+            background: linear-gradient(135deg, #0068ff, #00c6ff);
+            color: white; text-decoration: none;
+            border-radius: 60px;
+            font-weight: 800; font-size: 20px; letter-spacing: 0.5px;
+            /* Hiệu ứng nút "thở" (phóng to thu nhỏ nhẹ) */
+            animation: pulseBtn 2s infinite ease-in-out;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        @keyframes pulseBtn {
+            0% { transform: scale(1); box-shadow: 0 10px 30px rgba(0, 104, 255, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 15px 50px rgba(0, 198, 255, 0.6); }
+            100% { transform: scale(1); box-shadow: 0 10px 30px rgba(0, 104, 255, 0.4); }
+        }
+
+        .zalo-icon { font-size: 32px; margin-right: 15px; }
+        .btn-text-col { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.2; }
+        .btn-main-text { font-size: 20px; }
+        .btn-sub-text { font-size: 12px; font-weight: 600; opacity: 0.9; margin-top: 4px; color: #e0f7fa; }
+
+        /* Footer */
+        .footer { margin-top: 40px; font-size: 13px; color: var(--text-gray); opacity: 0.6; }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        
+        <div class="avatar-box">
+            <img src="https://i.imgur.com/8j56bXN.jpeg" class="avatar-img" alt="Avatar Shop">
+            <div class="status-dot"></div> </div>
+        
+        <div class="shop-name-row">
+            <h1 class="shop-name">AnTT Premium </h1>
+            <i class="fas fa-check-circle verified-badge"></i>
+        </div>
+        
+        <p class="bio-text">
+            Chuyên cung cấp tài khoản công nghệ chính hãng. Uy tín số 1 Việt Nam.
+        </p>
+
+        <div class="zalo-btn-wrap">
+            <a href="https://zalo.me/0966509943" class="btn-zalo" target="_blank">
+                <i class="fas fa-comment-dots zalo-icon"></i>
+                <div class="btn-text-col">
+                    <span class="btn-main-text">KẾT NỐI ZALO NGAY</span>
+                    <span class="btn-sub-text">⚡ Phản hồi siêu tốc 24/7</span>
+                </div>
+            </a>
+        </div>
+
+        <div class="footer">
+            © 2025 Premium Tech. All rights reserved.
+        </div>
+    </div>
+</body>
+</html>
